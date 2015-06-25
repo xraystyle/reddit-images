@@ -12,4 +12,9 @@
                 A Ruby/Sinatra port of the python scraper found here:
                 = precede " " do
                     %a{ href: 'http://www.kershner.org/scrape' }>http://www.kershner.org/scrape
-            
+
+        .form-container
+            %form{ "accept-charset": "UTF-8", action: "/", method: "post", class: "scrape-form" }
+                %label Which Subreddit?
+                %input{ id: "subreddit", type: "text", value: "", placeholder: "/r/" }
+                      
