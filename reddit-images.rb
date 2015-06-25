@@ -1,5 +1,7 @@
 require 'sinatra'
+require 'sinatra/reloader'
+
 
 get '/' do
-    'Hello World!'
+    haml :index, format: :html5
 end
