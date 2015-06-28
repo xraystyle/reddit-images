@@ -11,7 +11,7 @@
         %input{ id: "subreddit", name: "subreddit", type: "text", value: "", placeholder: "/r/" }
         %p
             %label Minimum Score?
-            %input{ id: "score", name: "score", type: "text", value: "" }
+            %input{ id: "score", name: "score", type: "number", value: "" }
         %p
             %label Results From:
             %select{ id: "sort", name: "sort" }
@@ -19,6 +19,13 @@
                 %option Month
                 %option Year
                 %option All
+        %p
+            %label Submissions to scrape:
+            %select{ id: "howmany", name: "howmany" }
+                %option 25
+                %option 50
+                %option 75
+                %option 100
         %p
             %input{ id: "submit", name: "submit", type: "submit", value: "Go!" }
               
