@@ -1,3 +1,6 @@
 %h1 This is where the images would appear.
-%p
-    %img{src: "#{@first_post}"}
+
+.images-container
+    - @images.each do |url|
+        .image
+            %img{src: url, style: "max-height: 300px;"}
