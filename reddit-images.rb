@@ -1,6 +1,11 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'tilt/haml'
+require 'open-uri'
+require 'json'
+require_relative 'helpers'
+
+helpers Helpers
 
 
 get '/' do
@@ -13,6 +18,6 @@ post '/images/' do
     # score = params[:score]
     # sort = params[:sort]
     # "params were: #{sub}, #{score}, #{sort}."
-    @foo =  params
+    
     haml :images, format: :html5, layout: :main_layout
 end
