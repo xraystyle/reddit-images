@@ -21,7 +21,7 @@ post '/images/' do
     # "params were: #{sub}, #{score}, #{sort}."
     page_array = get_pages(params[:subreddit],  params[:sort], params[:howmany])
 
-    @images = parse_pages(page_array)
+    @images = parse_pages(page_array, params[:score])
     
     haml :images, format: :html5, layout: :main_layout
 end
