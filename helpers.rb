@@ -30,15 +30,16 @@ module Helpers
     end
 
 
-    # Parse each page for individual posts, send the post to the URL processing method
-    # to return an array of image urls, one per post.
-    def parse_pages(page_array)
+    # Parse each page for individual posts. Filter the posts by score, then 
+    # send the post to the URL processing method to return an array of image urls, 
+    # one per post. 
+    def parse_pages(page_array, min_score = 1)
 
         # get all the posts into one array
         posts = []
         page_array.each do |page|
             page['data']['children'].each do |post|
-                posts << post
+                posts << post if post["data"]["score"].to_i >= min_score.to_i
             end
         end
 
