@@ -13,11 +13,9 @@ module Helpers
             if i == 0
                 url = "http://reddit.com/r/#{subreddit}#{sort_order}.json"
             else
-
                 # id of the last post on the previous page:
                 last_id = pages[i-1]['data']['children'].last["data"]['id']
                 url = "http://reddit.com/r/#{subreddit}#{sort_order}.json?count=#{i * 25}&after=t3_#{last_id}"
-
             end
 
             # pull the json page, parse and add to the pages array.
@@ -35,7 +33,7 @@ module Helpers
     # one per post. 
     def parse_pages(page_array, min_score = 1)
 
-        # get all the posts into one array
+        # get all the posts into one array, filtered by min_score.
         posts = []
         page_array.each do |page|
             page['data']['children'].each do |post|
@@ -46,16 +44,19 @@ module Helpers
         # get the correct image urls for each post
         image_urls = []
         posts.each do |post|
-
-            image_urls << get_image_url(post)
-            
+            # process the URL to see if it's a useful image.
+            # if so, add it to the image_urls array.
+            url = get_image_url(post)
+            image_urls << url if url
         end
         # return the array of image urls.
         image_urls
-
     end
 
+
+
     # Parse each post to retrieve the correct image URL for it.
+    # returns an image url as a string.
     def get_image_url(post)
 
         url_value = post['data']['url']
@@ -68,19 +69,16 @@ module Helpers
             # oembed hash doesn't exist, causing a NoMethodError.
 
             begin
-                puts "#{url_value}, matches imgur album."
                 return post['data']['media']['oembed']['thumbnail_url']
-            rescue => e
-                puts "Post had no oembed data. FAIL."
             end
 
         when /https?:\/\/[a-zA-Z0-9\-._~\/]+\.(jpg|gifv|gif|png)/ #any direct URL to an image.
-            puts "#{url_value}, matches direct link."
+            # Just return the value.
             return url_value
+
         when /https?:\/\/(m\.)?imgur.com\/[a-zA-Z0-9]+$/ #imgur single image on a page. Also handles mobile link posts.
             # adding the 'i.' and the '.jpg' to the url goes straight to the image,
             # regardless of format. (jpg, png, gif, etc.)
-            puts "#{url_value}, matches imgur single page."
             url_value.sub!(/m\./, "")
             url_value.sub!(/imgur/, "i.imgur")
             return url_value + ".jpg" 
