@@ -1,6 +1,6 @@
 %h1 This is where the images would appear.
 
 .images-container
-    - @images.each do |url|
+    - @images.each do |hash|
         .image
-            %img{src: url, style: "max-height: 300px;"}
+            %img{src: hash[:image_url], style: "max-height: 300px;"}

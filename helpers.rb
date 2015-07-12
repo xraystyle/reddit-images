@@ -47,7 +47,7 @@ module Helpers
             # process the URL to see if it's a useful image.
             # if so, add it to the image_urls array.
             urls = get_post_urls(post)
-            image_urls << url if url
+            image_urls << urls if urls
         end
         # return the array of image urls.
         image_urls
@@ -62,7 +62,7 @@ module Helpers
 
         url_value = post['data']['url']
 
-        url_pair = { post_url: "http://reddit.com" + post["data"]["permalink"], image_url: nil }
+        url_pair = { post_url: "http://reddit.com" + post["data"]["permalink"], image_url: nil, format: nil }
 
         case url_value
         when /https?:\/\/imgur.com\/a\/.*/  #imgur album, get the first image
@@ -84,7 +84,7 @@ module Helpers
             # regardless of format. (jpg, png, gif, etc.)
             url_value.sub!(/m\./, "")
             url_value.sub!(/imgur/, "i.imgur")
-            url_pair[:image_url] = url_value + ".jpg" 
+            url_pair[:image_url] = url_value + ".jpg"
         end
 
         # ignore unmatched urls.
@@ -96,7 +96,9 @@ module Helpers
 
 
 
-
+    def format_link(url_pair)
+        
+    end
 
 
 # end module.
