@@ -1,6 +1,10 @@
-%h1 This is where the images would appear.
+.results-title
+    %h1= "Pictures from /r/" + @sub + "!"
 
 .images-container
-    - @images.each do |url|
+
+    - @images.each do |hash|
         .image
-            %img{src: url, style: "max-height: 300px;"}
+            .image-inner        
+                %a{ href: hash[:post_url] }
+                    %img{src: hash[:image_url], style: "max-height: 300px;"}

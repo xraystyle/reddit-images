@@ -5,6 +5,10 @@ require 'open-uri'
 require 'json'
 require_relative 'helpers'
 
+# file containing API key is ignored by git.
+API_KEY = 'Client-ID ' + `cat ./imgur_api_key`
+IMGUR_BASE = 'https://api.imgur.com/3/'
+
 helpers Helpers
 
 
@@ -14,6 +18,8 @@ end
 
 post '/images/' do
     page_array = get_pages(params[:subreddit],  params[:sort], params[:howmany])
+
+    @sub = params[:subreddit].to_s
 
     @images = parse_pages(page_array, params[:score])
     
