@@ -5,6 +5,9 @@ require 'open-uri'
 require 'json'
 require_relative 'helpers'
 
+# file containing API key is ignored by git.
+API_KEY = 'Client-ID ' + `cat ./imgur_api_key`
+
 helpers Helpers
 
 
