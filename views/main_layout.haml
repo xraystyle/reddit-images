@@ -2,8 +2,16 @@
 
 %head
     %title Reddit Image Scraper: Ruby/Sinatra port of http://www.kershner.org/scrape
+    %link{:rel => :stylesheet, :type => :"text/css", :href => "/css/main.css"}
 
 
 %body
     .container
+        .welcome
+            %h1
+                %a{ href: '/index.html' }>Reddit Image Scraper
+            %p
+                A Ruby/Sinatra port of the python scraper found here:
+                = precede " " do
+                    %a{ href: 'http://www.kershner.org/scrape' }>http://www.kershner.org/scrape
         =yield
