@@ -19,7 +19,9 @@ module Helpers
             end
 
             # pull the json page, parse and add to the pages array.
-            page = JSON.parse(open(url).read)
+            begin
+                page = JSON.parse(open(url).read)
+            end
             pages << page
             
         end
@@ -106,10 +108,12 @@ module Helpers
 
         # query imgur for json data on the object in question.
         begin
+            puts "pulling id #{id}..."
             raw = open(IMGUR_BASE + type.to_s + "/#{id}", "Authorization" => API_KEY).read
-        rescue
+        rescue => e
             # returning these nils essentially skips the image in the output 
             # if there's an error when querying the imgur API.
+            puts e
             return { format: nil, link: nil }
         end
 
@@ -123,9 +127,11 @@ module Helpers
             format = json['data']['type']
             
             if format == "image/gif"
+                puts "pulled gifv #{id}."
                 info[:format] = :gifv
                 info[:link] = json['data']['webm']
             else
+                puts "pulled image #{id}."
                 info[:format] = :image
                 info[:link] = json['data']['link']
             end
@@ -147,18 +153,20 @@ module Helpers
        
         # image display output
         if url_pair[:format] == :image
-            "<div class='image'>\n  <div class='image-inner'>\n    <a href='" + 
+            puts "formatting an image."
+            return "<div class='image'>\n  <div class='image-inner'>\n    <a href='" + 
             url_pair[:post_url] + 
-            "'>\n      <img src='" +
+            "' target='_blank'>\n      <img src='" +
             url_pair[:image_url] +
             "' style='max-height: 300px;'>\n    </a>\n  </div>\n</div>"
         end
 
         # imgur gifv output
         if url_pair[:format] == :gifv
-            "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
+            puts "formatting a gifv."
+            return "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
             url_pair[:post_url] +
-            "/'>      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
+            "' target='_blank'>\n      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
             url_pair[:image_url] +
             "'></video>\n    </a>\n  </div>\n</div>"
         end

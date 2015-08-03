@@ -3,7 +3,24 @@
 .images-container
 
     - @images.each do |hash|
-        .image
-            .image-inner        
-                %a{ href: hash[:post_url] }
-                    %img{src: hash[:image_url], style: "max-height: 300px;"}
+        =format_link(hash)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        -# .image
+        -#     .image-inner        
+        -#         %a{ href: hash[:post_url] }
+        -#             %img{src: hash[:image_url], style: "max-height: 300px;"}

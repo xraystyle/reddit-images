@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'tilt/haml'
 require 'open-uri'
 require 'json'
+require 'ap'
 require_relative 'helpers'
 
 # file containing API key is ignored by git.
@@ -22,6 +23,8 @@ post '/images/' do
   @sub = params[:subreddit].to_s
 
   @images = parse_pages(page_array, params[:score])
+
+  ap @images
 
   haml :images, format: :html5, layout: :main_layout
 end
