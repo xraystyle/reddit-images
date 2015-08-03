@@ -26,6 +26,14 @@ post '/images/' do
     haml :images, format: :html5, layout: :main_layout
 end
 
+
+# test output. delete from live code.
+get '/test/' do
+    haml :test, format: :html5, layout: :main_layout
+end
+
+
+# catchall route
 get '/*' do
     redirect to('/'), 303
 end

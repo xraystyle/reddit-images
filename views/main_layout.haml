@@ -3,6 +3,8 @@
 %head
     %title Reddit Image Scraper: Ruby/Sinatra port of http://www.kershner.org/scrape
     %link{:rel => :stylesheet, :type => :"text/css", :href => "/css/main.css"}
+    %script{:src => 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'}
+
 
 
 %body
@@ -15,3 +17,4 @@
                 = precede " " do
                     %a{ href: 'http://www.kershner.org/scrape' }>http://www.kershner.org/scrape
         =yield
+%script{:src => '/javascript/main.js'}
