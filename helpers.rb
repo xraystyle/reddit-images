@@ -74,6 +74,7 @@ module Helpers
 
             url_pair[:image_url] = link_data[:link]
             url_pair[:format] = link_data[:format]
+            return url_pair if url_pair[:image_url]
 
         #imgur single image on a page, or direct link. Also handles mobile link posts.
         when /https?:\/\/(m|i\.)?imgur.com\/([a-zA-Z0-9]+)(\..*)?$/
@@ -84,18 +85,17 @@ module Helpers
 
             url_pair[:image_url] = link_data[:link]
             url_pair[:format] = link_data[:format]
+            return url_pair if url_pair[:image_url]
 
         #any direct URL to an image that's not imgur.
         when /https?:\/\/[a-zA-Z0-9\-._~\/]+\.(jpg|gif|png)/
             # Just return the value.
             url_pair[:image_url] = url_value
             url_pair[:format] = :image
+            return url_pair if url_pair[:image_url]
         end
 
-        # ignore unmatched urls.
-
-        # return the URL pair if it has a valid image, otherwise nil.
-        url_pair if url_pair[:image_url]
+        # ignore unmatched urls.        
         
     end
 
@@ -121,12 +121,13 @@ module Helpers
 
             # get the type and direct link.
             format = json['data']['type']
-            info[:link] = json['data']['link']
             
             if format == "image/gif"
                 info[:format] = :gifv
+                info[:link] = json['data']['webm']
             else
                 info[:format] = :image
+                info[:link] = json['data']['link']
             end
 
         end
@@ -143,9 +144,32 @@ module Helpers
 
 
     def format_link(url_pair)
-        
+       
+        # image display output
+        if url_pair[:format] == :image
+            "<div class='image'>\n  <div class='image-inner'>\n    <a href='" + 
+            url_pair[:post_url] + 
+            "'>\n      <img src='" +
+            url_pair[:image_url] +
+            "' style='max-height: 300px;'>\n    </a>\n  </div>\n</div>"
+        end
+
+        # imgur gifv output
+        if url_pair[:format] == :gifv
+            "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
+            url_pair[:post_url] +
+            "/'>      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
+            url_pair[:image_url] +
+            "'></video>\n    </a>\n  </div>\n</div>"
+        end
+
+       
     end
 
+
+    def testing
+        "This is a string of text."
+    end
 
 # end module.
 end

@@ -25,27 +25,5 @@
       %video{"preload": "auto", "autoplay": "autoplay", "loop": "loop", "muted": "muted", "id": "video", "src": "http://i.imgur.com/zvATqgs.webm"}
     
 
-
-
-
-
-
-      -# %source{"type": "video/webm", "src": "http://i.imgur.com/zvATqgs.webm"}
-      -# %source{"type": "video/mp4", "src": "http://i.imgur.com/zvATqgs.mp4"}
-
-
-
-
-
-
-
-
-
--# formatting for gifv:
-
--# <div class="video-container">
--#     <video autoplay="" loop="" muted="">
--#         <source type="video/webm" src="http://i.imgur.com/zvATqgs.webm">
--#         <source type="video/mp4" src="http://i.imgur.com/zvATqgs.mp4">
--#     </video>
--# </div>
+- url_pair = {post_url: 'https://www.reddit.com/r/cats/comments/3flyh4/yawning_kitten', image_url: 'http://i.imgur.com/0yW8pGq.webm', format: :gifv}    
+= format_link(url_pair)
