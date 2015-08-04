@@ -21,6 +21,8 @@ module Helpers
             # pull the json page, parse and add to the pages array.
             begin
                 page = JSON.parse(open(url).read)
+            rescue => e
+                redirect to('/'), 500
             end
             pages << page
             
@@ -83,11 +85,23 @@ module Helpers
             # adding the 'i.' and the '.jpg' to the url goes straight to the image,
             # regardless of format. (jpg, png, gif, etc.)
             image_id = $2
-            link_data = pull_imgur(image_id, :image)
 
-            url_pair[:image_url] = link_data[:link]
-            url_pair[:format] = link_data[:format]
-            return url_pair if url_pair[:image_url]
+            # nested case statements, I know.
+            case $3
+            when '.gif', '.gifv'
+                url_pair[:image_url] = url_value.sub(/\.gif(v)?/, '.webm')
+                url_pair[:format] = :gifv
+                return url_pair if url_pair[:image_url]
+            when nil
+                link_data = pull_imgur(image_id, :image)
+                url_pair[:image_url] = link_data[:link]
+                url_pair[:format] = link_data[:format]
+                return url_pair if url_pair[:image_url]
+            else
+                url_pair[:image_url] = url_value
+                url_pair[:format] = :image
+                return url_pair if url_pair[:image_url]
+            end
 
         #any direct URL to an image that's not imgur.
         when /https?:\/\/[a-zA-Z0-9\-._~\/]+\.(jpg|gif|png)/
