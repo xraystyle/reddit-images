@@ -24,8 +24,6 @@ post '/images/' do
 
   @images = parse_pages(page_array, params[:score])
 
-  ap @images
-
   haml :images, format: :html5, layout: :main_layout
 end
 
