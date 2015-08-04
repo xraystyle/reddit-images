@@ -1,0 +1,26 @@
+.results-title
+
+.images-container
+
+    - @images.each do |hash|
+        =format_link(hash)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        -# .image
+        -#     .image-inner        
+        -#         %a{ href: hash[:post_url] }
+        -#             %img{src: hash[:image_url], style: "max-height: 300px;"}
