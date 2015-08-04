@@ -83,10 +83,20 @@ module Helpers
             # adding the 'i.' and the '.jpg' to the url goes straight to the image,
             # regardless of format. (jpg, png, gif, etc.)
             image_id = $2
-            link_data = pull_imgur(image_id, :image)
 
-            url_pair[:image_url] = link_data[:link]
-            url_pair[:format] = link_data[:format]
+            case $3
+            when '.gif', '.gifv'
+                link_data[:image_url] = url_value.sub(/\.gif(v)?/, '.webm')
+                link_data[:format] = :gifv
+            when nil
+                link_data = link_data = pull_imgur(image_id, :image)
+                url_pair[:image_url] = link_data[:link]
+                url_pair[:format] = link_data[:format]
+            else
+                link_data[:image_url] = url_value
+                link_data[:format] = :image
+            end
+            
             return url_pair if url_pair[:image_url]
 
         #any direct URL to an image that's not imgur.
