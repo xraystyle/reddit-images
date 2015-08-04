@@ -158,6 +158,9 @@ module Helpers
     end
 
 
+
+    # This method is called from the 'images' view to properly format the output of each image,
+    # depending on whether or not it's a gifv or a regular image.
     def format_link(url_pair)
        
         # image display output
@@ -181,10 +184,6 @@ module Helpers
        
     end
 
-
-    def testing
-        "This is a string of text."
-    end
 
 # end module.
 end
