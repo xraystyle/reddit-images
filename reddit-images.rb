@@ -1,9 +1,7 @@
 require 'sinatra'
-require 'sinatra/reloader'
 require 'tilt/haml'
 require 'open-uri'
 require 'json'
-require 'ap'
 require_relative 'helpers'
 
 # file containing API key is ignored by git.
