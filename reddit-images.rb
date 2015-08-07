@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'tilt/haml'
-require 'open-uri'
 require 'json'
+require 'curb'
 require_relative 'helpers'
 
 # file containing API key is ignored by git.
@@ -9,7 +9,6 @@ API_KEY = 'Client-ID ' + `cat ./imgur_api_key`
 IMGUR_BASE = 'https://api.imgur.com/3/'
 
 helpers Helpers
-
 
 get '/' do
   haml :index, format: :html5, layout: :main_layout
