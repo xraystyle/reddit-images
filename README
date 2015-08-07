@@ -1,8 +1,8 @@
-This is a small Sinatra app that will scrape images from any given subreddit and display them in a grid.
-Each image is also a link to the discussion thread for that post on Reddit. 
+This is a small Sinatra app that will scrape images from any given subreddit and display them in a grid. Each image is also a link to the discussion thread for that post on Reddit.
 
 I built this as an exercise to learn the Sinatra framework, and to play around with the Reddit and Imgur APIs.
 
-I originally got the idea from the /r/learnprogramming subreddit, when a user asked how difficult it would be to
-build something like this: http://www.kershner.org/scrape in Ruby. My first thought was that Rails would be major
-overkill for something this small, and from what I'd heard about Sinatra, it seemed like a good choice.
+I originally got the idea from the /r/learnprogramming subreddit, when a user asked how difficult it would be to build something like this: http://www.kershner.org/scrape in Ruby. My first thought was that Rails would be major overkill for something this small, and from what I'd heard about Sinatra, it seemed like a good choice.
+
+Live version of the code is hosted here: http://scrape-reddit.xraystyle.com
+

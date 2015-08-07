@@ -11,16 +11,16 @@ module Helpers
         howmany.to_i.times do |i|
 
             if i == 0
-                url = "http://reddit.com/r/#{subreddit}#{sort_order}.json"
+                url = "http://www.reddit.com/r/#{subreddit}#{sort_order}.json"
             else
                 # id of the last post on the previous page:
                 last_id = pages[i-1]['data']['children'].last["data"]['id']
-                url = "http://reddit.com/r/#{subreddit}#{sort_order}.json?count=#{i * 25}&after=t3_#{last_id}"
+                url = "http://www.reddit.com/r/#{subreddit}#{sort_order}.json?count=#{i * 25}&after=t3_#{last_id}"
             end
 
             # pull the json page, parse and add to the pages array.
             begin
-                page = JSON.parse(open(url).read)
+                page = JSON.parse(Curl.get(url).body_str)
             rescue => e
                 redirect to('/'), 500
             end
@@ -66,7 +66,7 @@ module Helpers
 
         url_value = post['data']['url']
 
-        url_pair = { post_url: "http://reddit.com" + post["data"]["permalink"], image_url: nil, format: nil }
+        url_pair = { post_url: "http://www.reddit.com" + post["data"]["permalink"], image_url: nil, format: nil }
 
         case url_value
         #imgur album, get the cover image.
@@ -93,11 +93,15 @@ module Helpers
                 return url_pair if url_pair[:image_url]
             when nil
                 link_data = pull_imgur(image_id, :image)
-                url_pair[:image_url] = link_data[:link]
+
+                # add the 'm' to the id to get the medium thumbnail from imgur
+                thumb = link_data[:link].sub($2, $2 + 'm') if link_data[:link]
+
+                url_pair[:image_url] = thumb
                 url_pair[:format] = link_data[:format]
                 return url_pair if url_pair[:image_url]
             else
-                url_pair[:image_url] = url_value
+                url_pair[:image_url] = url_value.sub($2, $2 + 'm') 
                 url_pair[:format] = :image
                 return url_pair if url_pair[:image_url]
             end
@@ -169,7 +173,7 @@ module Helpers
             url_pair[:post_url] + 
             "' target='_blank'>\n      <img src='" +
             url_pair[:image_url] +
-            "' style='max-height: 300px;'>\n    </a>\n  </div>\n</div>"
+            "'>\n    </a>\n  </div>\n</div>"
         end
 
         # imgur gifv output
