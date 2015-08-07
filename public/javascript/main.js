@@ -6,6 +6,8 @@ $(window).load(function() {
         window.addEventListener("resize", fixVids);
     }
 
+    fixImgs();
+
 });
 
 
@@ -22,5 +24,19 @@ function fixVids() {
         var pixelShift = ( ( $(this).width() / 2 ) - ( boxLength / 2 ) );
 
         $(this).css('margin-left', ( pixelShift * -1 ) );
+    });
+}
+
+function fixImgs() {
+    var imgs = $('img');
+
+    imgs.each(function() {
+
+        if ( $(this).width() > $(this).height() ) {
+            $(this).css('height', '100%');
+        }    else {
+            $(this).css('width', '100%');
+        }
+
     });
 }

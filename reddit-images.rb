@@ -2,6 +2,7 @@ require 'sinatra'
 require 'tilt/haml'
 require 'open-uri'
 require 'json'
+require 'curb'
 require_relative 'helpers'
 
 # file containing API key is ignored by git.
