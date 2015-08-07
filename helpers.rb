@@ -122,10 +122,12 @@ module Helpers
     # query the imgur API for useful data about the link, return usable info.
     # Type can be either :image or :album
     def pull_imgur(id, type)
-
         # query imgur for json data on the object in question.
         begin
-            raw = open(IMGUR_BASE + type.to_s + "/#{id}", "Authorization" => API_KEY).read
+            c = Curl::Easy.new(IMGUR_BASE + type.to_s + "/#{id}")
+            c.headers['Authorization'] = API_KEY
+            c.perform
+            raw = c.body_str
         rescue => e
             # returning these nils essentially skips the image in the output 
             # if there's an error when querying the imgur API.
