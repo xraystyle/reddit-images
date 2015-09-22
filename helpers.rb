@@ -20,7 +20,8 @@ module Helpers
 
             # pull the json page, parse and add to the pages array.
             begin
-                page = JSON.parse(Curl.get(url).body_str)
+                raw = `curl -s '#{url}'`
+                page = JSON.parse(raw)
             rescue => e
                 redirect to('/'), 500
             end
@@ -39,15 +40,16 @@ module Helpers
 
         # get all the posts into one array, filtered by min_score.
         posts = []
-        page_array.each do |page|
-            page['data']['children'].each do |post|
+        page_array.peach do |page|
+            page['data']['children'].peach do |post|
                 posts << post if post["data"]["score"].to_i >= min_score.to_i
             end
         end
 
+
         # get the correct image and link urls for each post
         image_urls = []
-        posts.each do |post|
+        posts.peach do |post|
             # process the URL to see if it's a useful image.
             # if so, add it to the image_urls array.
             urls = get_post_urls(post) # see the get_post_urls method below.
@@ -113,7 +115,6 @@ module Helpers
             url_pair[:format] = :image
             return url_pair if url_pair[:image_url]
         end
-
         # ignore unmatched urls.        
         
     end
@@ -124,10 +125,12 @@ module Helpers
     def pull_imgur(id, type)
         # query imgur for json data on the object in question.
         begin
-            c = Curl::Easy.new(IMGUR_BASE + type.to_s + "/#{id}")
-            c.headers['Authorization'] = API_KEY
-            c.perform
-            raw = c.body_str
+            # c = Curl::Easy.new(IMGUR_BASE + type.to_s + "/#{id}")
+            # c.headers['Authorization'] = API_KEY
+            # c.perform
+            # raw = c.body_str
+            url = IMGUR_BASE + type.to_s + "/#{id}"
+            raw = `curl -s --header "Authorization: #{API_KEY}" '#{url}'`
         rescue => e
             # returning these nils essentially skips the image in the output 
             # if there's an error when querying the imgur API.
@@ -159,7 +162,6 @@ module Helpers
             cover_id = json['data']['cover']
             info = pull_imgur(cover_id, :image) 
         end
-
         info
     end
 
