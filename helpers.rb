@@ -3,7 +3,6 @@ module Helpers
     # pull in between 1 and 4 pages of JSON data from the requested subreddit.
     # return an array of JSON objects, one object per page of data.
     def get_pages(subreddit, sort_order, howmany)
-        puts __method__
 
         sort_order = "/#{sort_order}/".downcase
 
@@ -38,7 +37,6 @@ module Helpers
     # send the post to the URL processing method to return an array of image urls, 
     # one per post. 
     def parse_pages(page_array, min_score = 1)
-        puts __method__
 
         # get all the posts into one array, filtered by min_score.
         posts = []
@@ -47,6 +45,7 @@ module Helpers
                 posts << post if post["data"]["score"].to_i >= min_score.to_i
             end
         end
+
 
         # get the correct image and link urls for each post
         image_urls = []
@@ -66,7 +65,6 @@ module Helpers
     # returns a hash containing the image url and the link to the reddit
     # thread. Returns nil if no suitable image link.
     def get_post_urls(post)
-        puts __method__
 
         url_value = post['data']['url']
 
@@ -117,7 +115,6 @@ module Helpers
             url_pair[:format] = :image
             return url_pair if url_pair[:image_url]
         end
-
         # ignore unmatched urls.        
         
     end
@@ -126,7 +123,6 @@ module Helpers
     # query the imgur API for useful data about the link, return usable info.
     # Type can be either :image or :album
     def pull_imgur(id, type)
-        puts __method__
         # query imgur for json data on the object in question.
         begin
             # c = Curl::Easy.new(IMGUR_BASE + type.to_s + "/#{id}")
@@ -134,7 +130,7 @@ module Helpers
             # c.perform
             # raw = c.body_str
             url = IMGUR_BASE + type.to_s + "/#{id}"
-            raw = `curl -s --header "Authorization: Client-ID #{API_KEY}" '#{url}'`
+            raw = `curl -s --header "Authorization: #{API_KEY}" '#{url}'`
         rescue => e
             # returning these nils essentially skips the image in the output 
             # if there's an error when querying the imgur API.
@@ -166,7 +162,6 @@ module Helpers
             cover_id = json['data']['cover']
             info = pull_imgur(cover_id, :image) 
         end
-
         info
     end
 
@@ -175,7 +170,6 @@ module Helpers
     # This method is called from the 'images' view to properly format the output of each image,
     # depending on whether or not it's a gifv or a regular image.
     def format_link(url_pair)
-        puts __method__
        
         # image display output
         if url_pair[:format] == :image
