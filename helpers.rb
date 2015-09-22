@@ -20,7 +20,10 @@ module Helpers
 
             # pull the json page, parse and add to the pages array.
             begin
-                page = JSON.parse(Curl.get(url).body_str)
+                puts url
+                # page = JSON.parse(Curl.get(url).body_str)
+                raw = `curl -s '#{url}'`
+                page = JSON.parse(raw)
             rescue => e
                 redirect to('/'), 500
             end
@@ -39,15 +42,15 @@ module Helpers
 
         # get all the posts into one array, filtered by min_score.
         posts = []
-        page_array.each do |page|
-            page['data']['children'].each do |post|
+        page_array.peach do |page|
+            page['data']['children'].peach do |post|
                 posts << post if post["data"]["score"].to_i >= min_score.to_i
             end
         end
 
         # get the correct image and link urls for each post
         image_urls = []
-        posts.each do |post|
+        posts.peach do |post|
             # process the URL to see if it's a useful image.
             # if so, add it to the image_urls array.
             urls = get_post_urls(post) # see the get_post_urls method below.

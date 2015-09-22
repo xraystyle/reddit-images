@@ -1,7 +1,9 @@
 require 'sinatra'
 require 'tilt/haml'
 require 'json'
-require 'curb'
+# require 'curb'
+require 'pmap'
+
 require_relative 'helpers'
 
 # file containing API key is ignored by git.
@@ -15,6 +17,7 @@ get '/' do
 end
 
 post '/images/' do
+
   page_array = get_pages(params[:subreddit],  params[:sort], params[:howmany])
 
   @sub = params[:subreddit].to_s
