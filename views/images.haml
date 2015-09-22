@@ -1,6 +1,8 @@
 .results-title
 
-.images-container
+.loading
+    %img(src="/images/loading.gif")
 
+.images-container
     - @images.each do |hash|
         =format_link(hash)
