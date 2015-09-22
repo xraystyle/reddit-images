@@ -1,12 +1,17 @@
 $(window).load(function() {
     
-    // If there's gifv's on the page, fix 'em!
-    if ($('video').length) {
-        fixVids();
-        window.addEventListener("resize", fixVids);
-    }
+    $('.loading').fadeOut('400', function() {
+        $('.images-container').fadeIn(2000);
 
-    fixImgs();
+        // If there's gifv's on the page, fix 'em!
+        if ($('video').length) {
+            fixVids();
+            window.addEventListener("resize", fixVids);
+        }
+
+        fixImgs();
+
+    });
 
 });
 
