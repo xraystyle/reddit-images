@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'tilt/haml'
 require 'json'
-# require 'curb'
 require 'pmap'
 
 require_relative 'helpers'
