@@ -2,4 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require_relative 'reddit-images'
 
-run Sinatra.application
+set :environment, :production
+set :run, false
+
+run Sinatra::Application
