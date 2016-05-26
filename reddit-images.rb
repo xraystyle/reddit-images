@@ -17,6 +17,7 @@ end
 
 post '/images/' do
 
+  # log_message("in the -post- block.")
   page_array = get_pages(params[:subreddit],  params[:sort], params[:howmany])
 
   @sub = params[:subreddit].to_s

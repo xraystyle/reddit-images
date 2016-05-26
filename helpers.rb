@@ -1,10 +1,16 @@
 module Helpers
 
 
+    # Set up a logging method for easy debug logging.
+    # def log_message(message)
+        log_file = "/home/xraystyle/webapps/reddit_images/app/debug.log"
+        `echo '#{Time.now}: #{message}' >> #{log_file}`
+    end
+
     # pull in between 1 and 4 pages of JSON data from the requested subreddit.
     # return an array of JSON objects, one object per page of data.
     def get_pages(subreddit, sort_order, howmany)
-
+        # log_message("Getting pages...")
         sort_order = "/#{sort_order}/".downcase
 
         pages = []
@@ -21,14 +27,19 @@ module Helpers
 
             # pull the json page, parse and add to the pages array.
             begin
-                raw = `curl --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36" -s '#{url}'`
+                # log_message("Beginning curl...")
+                # log_message(url)
+                raw = `curl --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36" -s '#{url}' 2>&1`
+                # log_message(raw[0..20])
                 page = JSON.parse(raw)
+                # log_message("Page data: #{page.length}")
             rescue => e
                 redirect to('/'), 500
             end
             pages << page
             
         end
+        # log_message("Successfully got pages.")
         # return the array
         pages
     end
@@ -39,6 +50,7 @@ module Helpers
     # one per post. 
     def parse_pages(page_array, min_score = 1)
         # get all the posts into one array, filtered by min_score.
+        # log_message("Parsing pages...")
         posts = []
         page_array.peach do |page|
             page['data']['children'].peach do |post|
@@ -55,6 +67,7 @@ module Helpers
             urls = get_post_urls(post) # see the get_post_urls method below.
             image_urls << urls if urls
         end
+        # log_message("Successfully parsed pages.")
         # return the array of image urls.
         image_urls
     end
