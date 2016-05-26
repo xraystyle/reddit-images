@@ -1,5 +1,6 @@
 module Helpers
 
+
     # pull in between 1 and 4 pages of JSON data from the requested subreddit.
     # return an array of JSON objects, one object per page of data.
     def get_pages(subreddit, sort_order, howmany)
@@ -20,7 +21,7 @@ module Helpers
 
             # pull the json page, parse and add to the pages array.
             begin
-                raw = `curl -s '#{url}'`
+                raw = `curl --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36" -s '#{url}'`
                 page = JSON.parse(raw)
             rescue => e
                 redirect to('/'), 500
@@ -37,7 +38,6 @@ module Helpers
     # send the post to the URL processing method to return an array of image urls, 
     # one per post. 
     def parse_pages(page_array, min_score = 1)
-
         # get all the posts into one array, filtered by min_score.
         posts = []
         page_array.peach do |page|
