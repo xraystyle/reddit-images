@@ -2,7 +2,7 @@ module Helpers
 
 
     # Set up a logging method for easy debug logging.
-    # def log_message(message)
+    def log_message(message)
         log_file = "/home/xraystyle/webapps/reddit_images/app/debug.log"
         `echo '#{Time.now}: #{message}' >> #{log_file}`
     end
