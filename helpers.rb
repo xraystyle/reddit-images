@@ -183,26 +183,23 @@ module Helpers
     # This method is called from the 'images' view to properly format the output of each image,
     # depending on whether or not it's a gifv or a regular image.
     def format_link(url_pair)
-       
         # image display output
         if url_pair[:format] == :image
             return "<div class='image'>\n  <div class='image-inner'>\n    <a href='" + 
-            url_pair[:post_url] + 
-            "' target='_blank'>\n      <img src='" +
-            url_pair[:image_url] +
-            "'>\n    </a>\n  </div>\n</div>"
+                   url_pair[:post_url] + 
+                   "' target='_blank'>\n      <img src='" +
+                   url_pair[:image_url] +
+                   "'>\n    </a>\n  </div>\n</div>"
         end
 
         # imgur gifv output
         if url_pair[:format] == :gifv
             return "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
-            url_pair[:post_url] +
-            "' target='_blank'>\n      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
-            url_pair[:image_url] +
-            "'></video>\n    </a>\n  </div>\n</div>"
+                    url_pair[:post_url] +
+                    "' target='_blank'>\n      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
+                    url_pair[:image_url] +
+                    "'></video>\n    </a>\n  </div>\n</div>"
         end
-
-       
     end
 
 
