@@ -4,8 +4,9 @@ $(window).load(function() {
         $('.images-container').fadeIn(2000);
 
         // If there's gifv's on the page, fix 'em!
-        if ($('video').length) {
-            fixVids();
+        var $vids = $('video')
+        if ($vids.length) {
+            fixVids($vids);
             window.addEventListener("resize", fixVids);
         }
 
@@ -19,11 +20,10 @@ $(window).load(function() {
 // Set the height of any gifv's to the height of their containing div,
 // then offset them by the correct number of pixels to center the video in
 // the div.
-function fixVids() {
-    var vids = $('video');
+function fixVids(videos) {
     var boxLength = $('.video-inner').height();
 
-    vids.each(function() {
+    videos.each(function() {
         $(this).attr('height', boxLength);
 
         var pixelShift = ( ( $(this).width() / 2 ) - ( boxLength / 2 ) );

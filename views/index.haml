@@ -15,10 +15,8 @@
         %p
             %label Pages to scrape:
             %select{ id: "howmany", name: "howmany" }
-                %option 1
-                %option 2
-                %option 3
-                %option 4
+                - (1..5).each do |i|
+                    %option #{i}
         %p
             %input{ id: "submit", name: "submit", type: "submit", value: "Go!" }
               
