@@ -199,7 +199,7 @@ module Helpers
     if url_pair[:format] == :gifv
       return "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
                 url_pair[:post_url] +
-                "' target='_blank'>\n      <video autoplay='autoplay' type="video/mp4" id='video' loop='loop' muted='muted' preload='auto' src='" +
+                "' target='_blank'>\n      <video autoplay='autoplay' type='video/mp4' id='video' loop='loop' muted='muted' preload='auto' src='" +
                 url_pair[:image_url] +
                 "'></video>\n    </a>\n  </div>\n</div>"
     end
