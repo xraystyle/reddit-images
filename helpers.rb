@@ -106,7 +106,7 @@ module Helpers
       # nested case statements, I know.
       case $3
       when '.gif', '.gifv'
-        url_pair[:image_url] = url_value.sub(/\.gif(v)?/, '.webm')
+        url_pair[:image_url] = url_value.sub(/\.gif(v)?/, '.mp4')
         url_pair[:format] = :gifv
         return url_pair if url_pair[:image_url]
       when nil
@@ -199,7 +199,7 @@ module Helpers
     if url_pair[:format] == :gifv
       return "<div class='video-container'>\n  <div class='video-inner'>\n    <a href='" +
                 url_pair[:post_url] +
-                "' target='_blank'>\n      <video autoplay='autoplay' id='video' loop='loop' muted='muted' preload='auto' src='" +
+                "' target='_blank'>\n      <video autoplay='autoplay' type="video/mp4" id='video' loop='loop' muted='muted' preload='auto' src='" +
                 url_pair[:image_url] +
                 "'></video>\n    </a>\n  </div>\n</div>"
     end
